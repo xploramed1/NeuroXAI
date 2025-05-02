@@ -1,0 +1,12 @@
+streamlit
+tensorflow==2.15
+tensorflow-addons==0.21
+keras==2.15
+nibabel
+opencv-python
+matplotlib
+scikit-image
+scikit-learn
+pandas
+seaborn
+Pillow
