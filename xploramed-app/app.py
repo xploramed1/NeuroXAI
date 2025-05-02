@@ -110,7 +110,7 @@ if uploaded_files and len(uploaded_files) == 4:
         if st.button("Run Segmentation + Grad-CAM"):
             with st.spinner("Running model..."):
                 ensure_model_exists()
-                model = get_deepseg()
+                model = get_deepseg(WEIGHTS=None)
                 model.load_weights("DeepSeg_model.hdf5")
                 io_imgs = load_images(ID=patient_id, PATH_DATA=tmp_dir)
                 preds = model(io_imgs, training=False).numpy()
