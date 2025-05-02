@@ -110,8 +110,8 @@ if uploaded_files and len(uploaded_files) == 4:
         if st.button("Run Segmentation + Grad-CAM"):
             with st.spinner("Running model..."):
                 ensure_model_exists()
-                model = get_deepseg(WEIGHTS=None)
-                model.load_weights("DeepSeg_model.hdf5")
+                model = load_model("DeepSeg_model.hdf5", compile=False)
+
                 io_imgs = load_images(ID=patient_id, PATH_DATA=tmp_dir)
                 preds = model(io_imgs, training=False).numpy()
                 predicted_mask = np.argmax(preds[0], axis=-1)
