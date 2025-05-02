@@ -16,16 +16,15 @@ from tensorflow_addons.layers import InstanceNormalization
 from skimage.transform import resize
 import pandas as pd
 import gdown
-from tensorflow.keras.models import load_model
 
-
+# ------------------ MODEL FILE CHECK & DOWNLOAD ------------------
 def ensure_model_exists():
     model_path = "DeepSeg_model.hdf5"
     if not os.path.exists(model_path):
         print("Downloading model from Google Drive...")
         url = "https://drive.google.com/uc?id=1jtveR5q1AdmOnqPEGonXC8TMv3hQIMZK"
         gdown.download(url, model_path, quiet=False)
-        
+
 # --------------------- NeuroXAI Model + Utils ---------------------
 def norm_image(img, NORM_TYP="norm"):
     if NORM_TYP == "standard_norm":
@@ -110,7 +109,7 @@ if uploaded_files and len(uploaded_files) == 4:
         if st.button("Run Segmentation + Grad-CAM"):
             with st.spinner("Running model..."):
                 ensure_model_exists()
-                model = load_model("DeepSeg_model.hdf5", compile=False)
+                model = get_deepseg(WEIGHTS="DeepSeg_model.hdf5")  # ✅ This is the FIX
 
                 io_imgs = load_images(ID=patient_id, PATH_DATA=tmp_dir)
                 preds = model(io_imgs, training=False).numpy()
