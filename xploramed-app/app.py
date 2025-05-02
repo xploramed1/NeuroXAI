@@ -17,7 +17,6 @@ from skimage.transform import resize
 import pandas as pd
 import gdown
 
-# ------------------ MODEL FILE CHECK & DOWNLOAD ------------------
 def ensure_model_exists():
     model_path = "DeepSeg_model.hdf5"
     if not os.path.exists(model_path):
@@ -109,7 +108,8 @@ if uploaded_files and len(uploaded_files) == 4:
         if st.button("Run Segmentation + Grad-CAM"):
             with st.spinner("Running model..."):
                 ensure_model_exists()
-                model = get_deepseg(WEIGHTS="DeepSeg_model.hdf5")  # ✅ This is the FIX
+                model = get_deepseg()
+                model.load_weights("DeepSeg_model.hdf5")
 
                 io_imgs = load_images(ID=patient_id, PATH_DATA=tmp_dir)
                 preds = model(io_imgs, training=False).numpy()
