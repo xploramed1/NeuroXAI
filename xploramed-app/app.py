@@ -108,8 +108,9 @@ if uploaded_files and len(uploaded_files) == 4:
         if st.button("Run Segmentation + Grad-CAM"):
             with st.spinner("Running model..."):
                 ensure_model_exists()
-                model = get_deepseg()
-                model.load_weights("DeepSeg_model.hdf5")
+                from tensorflow.keras.models import load_model
+                model = load_model("DeepSeg_model.hdf5", compile=False)
+
 
                 io_imgs = load_images(ID=patient_id, PATH_DATA=tmp_dir)
                 preds = model(io_imgs, training=False).numpy()
